@@ -71,10 +71,6 @@ def processar_mensagem_sqs():
             WaitTimeSeconds=10
         )
 
-        queue = sqs.get_queue_by_name(QueueName=queue_name)
-
-        print("Fila: ", queue)
-
         # Processar a mensagem
         messages = response.get('Messages', [])
         if messages:
@@ -88,7 +84,6 @@ def processar_mensagem_sqs():
                             object_key = record['s3']['object']['key']
                             print(f"Arquivo carregado no S3: {bucket_name}/{object_key}")
                             
-
                             # Apagar a mensagem da fila depois de processá-la
                             receipt_handle = message['ReceiptHandle']
                             sqs.delete_message(
