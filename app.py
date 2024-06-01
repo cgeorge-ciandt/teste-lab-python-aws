@@ -23,7 +23,9 @@ def homepage():
 @app.route("/processar-mensagem")
 def processarMensagem():
     bucket_name, object_key = processar_mensagem_sqs()
-    text = processar_arquivo_s3(bucket_name, object_key)
+    text = ""
+    if bucket_name and object_key:
+        text = processar_arquivo_s3(bucket_name, object_key)
     return text
 
 def appRun():
@@ -97,7 +99,7 @@ def processar_mensagem_sqs():
                             return [bucket_name, object_key]
         else:
             print("Nenhuma mensagem recebida.")
-
+            return [None, None]
     except Exception as e:
         print(f"Erro ao processar mensagem: {e}")
 
