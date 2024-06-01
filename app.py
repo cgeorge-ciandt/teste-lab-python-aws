@@ -59,6 +59,9 @@ def processar_mensagem_sqs():
     try:
 
         queue_url = get_queue_url(queue_name)
+
+        print("Queue URL: ",queue_url)
+
         # Receber mensagem da fila SQS
         response = sqs.receive_message(
             QueueUrl=queue_url,
@@ -99,9 +102,11 @@ def processar_mensagem_sqs():
         print(f"Erro ao processar mensagem: {e}")
 
 def get_queue_url(queue):
+    print("Queue: ", queue)
     response = sqs.get_queue_url(
         QueueName=queue,
     )
+    print("Get queue url Response: ", response)
     return response["QueueUrl"]
 
 
